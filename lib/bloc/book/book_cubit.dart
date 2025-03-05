@@ -1,4 +1,7 @@
-import 'package:book_finder_flutter/bloc/book_state.dart';
+import 'dart:async';
+import 'dart:io';
+
+import 'package:book_finder_flutter/bloc/book/book_state.dart';
 import 'package:book_finder_flutter/models/book_data.dart';
 import 'package:book_finder_flutter/services/book_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,13 +17,13 @@ class BookCubit extends Cubit<BookState> {
       final BookData bookData = await bookRepository.fetchBooks(query);
 
       if (bookData.items == null || bookData.items!.isEmpty) {
-      
-        emit(BooksDisplayed([])); 
+        emit(BooksDisplayed([]));
       } else {
         emit(BooksDisplayed(bookData.items!));
       }
     } catch (e) {
-      emit(BookError("Failed to fetch books: $e"));
+      String errorMessage = 'Failed to load books, Please try again';
+        emit(BookError(errorMessage));
     }
   }
 }
