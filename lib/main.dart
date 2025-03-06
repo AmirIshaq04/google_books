@@ -28,8 +28,7 @@ class MyApp extends StatelessWidget {
           create: (context) => ThemeCubit(),
         ),
       ],
-      child:
-          BlocBuilder<ThemeCubit,ThemeData>(builder: (context, theme) {
+      child: BlocBuilder<ThemeCubit, ThemeData>(builder: (context, theme) {
         return MaterialApp(
           title: 'Flutter Demo',
           theme: theme,
