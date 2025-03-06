@@ -2,6 +2,7 @@ import 'package:book_finder_flutter/bloc/book/book_cubit.dart';
 import 'package:book_finder_flutter/bloc/book/book_state.dart';
 import 'package:book_finder_flutter/bloc/favorite/favorite_book_cubit.dart';
 import 'package:book_finder_flutter/bloc/favorite/favorite_book_cubit_state.dart';
+import 'package:book_finder_flutter/bloc/theme/theme_cubit.dart';
 import 'package:book_finder_flutter/pages/favorite_books_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,9 +19,25 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text('Book Finder'),
+        surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        title: Text(
+          'Book Finder',
+          style: TextStyle(color: Theme.of(context).primaryColor),
+        ),
         actions: [
+          IconButton(
+            onPressed: () {
+              context.read<ThemeCubit>().toggleTheme();
+            },
+            icon: Icon(
+              Theme.of(context).brightness == Brightness.dark
+                  ? Icons.light_mode
+                  : Icons.dark_mode,
+            ),
+          ),
           IconButton(
               onPressed: () {
                 Navigator.push(
@@ -32,7 +49,7 @@ class HomePage extends StatelessWidget {
               icon: Icon(
                 Icons.favorite,
                 color: Colors.pink,
-              ))
+              )),
         ],
       ),
       body: Column(
@@ -43,6 +60,7 @@ class HomePage extends StatelessWidget {
               controller: _searchController,
               decoration: InputDecoration(
                 hintText: 'Search for books...',
+                hintStyle: TextStyle(color: Theme.of(context).primaryColor),
                 suffixIcon: IconButton(
                   icon: const Icon(Icons.search),
                   onPressed: () {
@@ -64,7 +82,10 @@ class HomePage extends StatelessWidget {
                   final books = state.books;
 
                   if (books.isEmpty) {
-                    return const Center(child: Text('No books found'));
+                    return Center(
+                        child: Text('No books found',
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor)));
                   }
 
                   return ListView.builder(
@@ -93,10 +114,14 @@ class HomePage extends StatelessWidget {
                               title,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor),
                             ),
                             subtitle: Text(
                               authors,
                               maxLines: 2,
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor),
                               overflow: TextOverflow.ellipsis,
                             ),
                             trailing: IconButton(
@@ -141,13 +166,21 @@ class HomePage extends StatelessWidget {
                               context.read<BookCubit>().fetchBooks(query);
                             }
                           },
-                          child: const Text('Retry'),
+                          child: Text(
+                            'Retry',
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor),
+                          ),
                         ),
                       ],
                     ),
                   );
                 } else {
-                  return const Center(child: Text('Search for books'));
+                  return Center(
+                      child: Text(
+                    'Search for books',
+                    style: TextStyle(color: Theme.of(context).primaryColor),
+                  ));
                 }
               },
             ),

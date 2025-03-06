@@ -12,8 +12,14 @@ class FavoriteBooksScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     context.read<FavoriteBookCubit>().loadFavorites();
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text('Favorite Books'),
+        surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        title: Text(
+          'Favorite Books',
+          style: TextStyle(color: Theme.of(context).primaryColor),
+        ),
       ),
       body: BlocBuilder<FavoriteBookCubit, FavoriteBookCubitState>(
         builder: (context, state) {
@@ -23,7 +29,11 @@ class FavoriteBooksScreen extends StatelessWidget {
             final favorites = state.favorites;
 
             if (favorites.isEmpty) {
-              return const Center(child: Text('No favorite books yet.'));
+              return Center(
+                  child: Text(
+                'No favorite books yet.',
+                style: TextStyle(color: Theme.of(context).primaryColor),
+              ));
             }
 
             return ListView.builder(
@@ -44,11 +54,13 @@ class FavoriteBooksScreen extends StatelessWidget {
                   title: Text(
                     title,
                     maxLines: 2,
+                    style: TextStyle(color: Theme.of(context).primaryColor),
                     overflow: TextOverflow.ellipsis,
                   ),
                   subtitle: Text(
                     authors,
                     maxLines: 2,
+                    style: TextStyle(color: Theme.of(context).primaryColor),
                     overflow: TextOverflow.ellipsis,
                   ),
                   trailing: IconButton(
@@ -79,7 +91,10 @@ class FavoriteBooksScreen extends StatelessWidget {
                     onPressed: () {
                       context.read<FavoriteBookCubit>().loadFavorites();
                     },
-                    child: const Text('Retry'),
+                    child: Text(
+                      'Retry',
+                      style: TextStyle(color: Theme.of(context).primaryColor),
+                    ),
                   ),
                 ],
               ),
